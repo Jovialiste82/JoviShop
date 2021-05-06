@@ -1,8 +1,16 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const products = require("./data/products");
+// const express = require("express");
+// const dotenv = require("dotenv");
+// const products = require("./data/products");
+////////////////////////////////////////////////
+// adding "type": "module" in our package.json will
+// allow us to use imports instead of common js
+import express from "express";
+import dotenv from "dotenv";
+import products from "./data/products.js";
 
+// allows to use environment variables stored in .env
 dotenv.config();
+
 const app = express();
 
 app.get("/", (req, res) => {
