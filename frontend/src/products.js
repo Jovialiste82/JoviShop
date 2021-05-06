@@ -1,3 +1,7 @@
+// ////////////// LEGACY //////////////
+// Not used anymore since we are using
+// the copy located in the backend folder
+
 const products = [
   {
     _id: "1",
