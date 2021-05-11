@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { addToCart } from "../actions/cartActions";
+import { addToCart, removeFromCart } from "../actions/cartActions";
 
 const CartScreen = ({ match, location, history }) => {
   // we need match to get the id in the URL
@@ -32,7 +32,7 @@ const CartScreen = ({ match, location, history }) => {
   }, [dispatch, productId, qty]);
 
   const removeFromCartHandler = (id) => {
-    console.log("remove");
+    dispatch(removeFromCart(id));
   };
 
   const checkoutHandler = () => {
