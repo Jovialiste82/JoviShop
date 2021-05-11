@@ -21,8 +21,8 @@ const getProductById = asyncHandler(async (req, res) => {
   } else {
     // res.status(404).json({ message: "Product not found" });
     // because of our custom error handling, we can just throw an error
-    res.status(404);
     // if we omit to set 404, it will default to 500
+    res.status(404);
     throw new Error("Error (0452) - Product not found");
   }
 });
