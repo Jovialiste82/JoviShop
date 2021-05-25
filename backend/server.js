@@ -5,6 +5,7 @@
 // adding "type": "module" in our package.json will
 // allow us to use imports instead of common js
 import express from "express";
+import path from "path";
 import dotenv from "dotenv";
 import colors from "colors";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
@@ -12,6 +13,7 @@ import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
 
 // allows to use environment variables stored in .env
 dotenv.config();
@@ -38,10 +40,17 @@ app.get("/", (req, res) => {
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/upload", uploadRoutes);
 
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
+
+// To mimic __dirname which only works with common JS
+const __dirname = path.resolve();
+
+// Let's make uploads folder static
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 app.use(notFound);
 app.use(errorHandler);
