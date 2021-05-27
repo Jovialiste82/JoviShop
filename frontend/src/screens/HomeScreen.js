@@ -6,7 +6,8 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listProducts } from "../actions/productActions";
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
+  const keyword = match.params.keyword;
   // modified due to Redux implementation
   // const [products, setProducts] = useState([]);
   const dispatch = useDispatch();
@@ -32,8 +33,8 @@ const HomeScreen = () => {
   // }, []);
 
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>
