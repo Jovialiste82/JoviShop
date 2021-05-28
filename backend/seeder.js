@@ -47,6 +47,9 @@ const destroyData = async () => {
 console.log("process.argv");
 console.log(process.argv);
 
+// /////// npm run data:import
+// /////// Uncomment to enable seeder functions
+// ////////////////////////////////////////////
 // if (process.argv[2] === "-d") {
 //   destroyData();
 // } else {
