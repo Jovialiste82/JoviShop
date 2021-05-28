@@ -8,6 +8,7 @@ import express from "express";
 import path from "path";
 import dotenv from "dotenv";
 import colors from "colors";
+import morgan from "morgan";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
@@ -28,14 +29,18 @@ const app = express();
 //   console.log(req.originalUrl);
 //   next();
 // });
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 // Middleware allowing req.body to be parsed
 // allows us to accept JSON data in the body
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
+// to be removed when ready to deploy
+// app.get("/", (req, res) => {
+//   res.send("API is running...");
+// });
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
@@ -51,6 +56,18 @@ const __dirname = path.resolve();
 
 // Let's make uploads folder static
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+
+// Prepare for deployment
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running...");
+  });
+}
 
 app.use(notFound);
 app.use(errorHandler);
