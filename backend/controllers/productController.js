@@ -25,7 +25,8 @@ const getProducts = asyncHandler(async (req, res) => {
 
   console.log(`####### pageSize: ${pageSize}`);
   console.log(`####### page: ${page}`);
-  console.log(`####### keyword: ${keyword.name}`);
+  console.log(`####### keyword`);
+  console.log(keyword);
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
@@ -103,7 +104,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Create new review a product
+// @desc    Create new review
 // @route   POST /api/products/:id/reviews
 // @access  Private
 const createProductReview = asyncHandler(async (req, res) => {
@@ -139,6 +140,14 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get top rated products
+// @route   POST /api/products/top
+// @access  Public
+const getTopProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  res.json(products);
+});
+
 export {
   getProducts,
   getProductById,
@@ -146,4 +155,5 @@ export {
   createProduct,
   updateProduct,
   createProductReview,
+  getTopProducts,
 };
